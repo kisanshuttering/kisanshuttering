@@ -258,98 +258,94 @@ function openQuoteModal(prefillMaterial = '') {
   if (modal) modal.remove();
   
   const pLower = prefillMaterial.toLowerCase();
-  let mappedKey = '';
-  if (pLower.includes('shuttering') || pLower.includes('plate') || pLower.includes('farma') || pLower.includes('channel') || pLower.includes('beam')) {
-    mappedKey = 'shuttering';
-  } else if (pLower.includes('cuplock') || pLower.includes('vertical') || pLower.includes('ledger')) {
-    mappedKey = 'cuplock';
+  let materialDisplay = 'Premium Scaffolding & Shuttering Materials';
+  if (pLower.includes('shuttering') || pLower.includes('plate') || pLower.includes('farma')) {
+    materialDisplay = 'Heavy Centering Shuttering Plates & Farma';
+  } else if (pLower.includes('cuplock') || pLower.includes('vertical')) {
+    materialDisplay = 'Heavy Cuplock Scaffolding Systems';
   } else if (pLower.includes('scaffolding')) {
-    mappedKey = 'scaffolding';
+    materialDisplay = 'Heavy Scaffold Pipes, Couplers & Standards';
   } else if (pLower.includes('jack') || pLower.includes('prop') || pLower.includes('span')) {
-    mappedKey = 'jacks';
-  } else if (pLower.includes('challi') || pLower.includes('walk') || pLower.includes('board') || pLower.includes('plank')) {
-    mappedKey = 'challi';
-  } else {
-    mappedKey = prefillMaterial;
+    materialDisplay = 'Adjustable Prop Jacks & Spans';
+  } else if (pLower.includes('challi') || pLower.includes('walk') || pLower.includes('plank')) {
+    materialDisplay = 'Anti-Skid Walkway Planks / MS Challi';
   }
 
-  const currentCity = window.location.pathname.split('/').pop().replace('.html', '');
-  const displayCity = currentCity && currentCity !== 'index' ? currentCity.charAt(0).toUpperCase() + currentCity.slice(1) : '';
+  const currentCityForPre = window.location.pathname.split('/').pop().replace('.html', '');
+  const activeCity = currentCityForPre && currentCityForPre !== 'index' ? currentCityForPre.charAt(0).toUpperCase() + currentCityForPre.slice(1) : '';
+  const citySuffix = activeCity ? ` under ${activeCity} region` : '';
 
   modal = document.createElement('div');
   modal.id = 'global-quote-modal';
-  modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm';
+  modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm';
   modal.innerHTML = `
-    <div class="bg-[#1E1E1E] text-white rounded-xl border border-white/10 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl transform scale-95 transition-all duration-300">
-      <div class="p-6 border-b border-white/10 flex justify-between items-center sticky top-0 bg-[#1E1E1E] z-10">
-        <h3 class="text-xl font-bold font-sans flex items-center text-[#FFC107]">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    <div class="bg-[#1E1E1E] text-white rounded-xl border border-white/10 max-w-md w-full overflow-hidden shadow-2xl transform scale-95 transition-all duration-300">
+      <div class="p-6 border-b border-white/10 flex justify-between items-center bg-[#181818]">
+        <h3 class="text-lg font-bold font-sans flex items-center text-[#FFC107]">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-[#FFC107]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
           </svg>
-          Request Instant Bulk Quote
+          Direct Connection Desk
         </h3>
-        <button class="text-gray-400 hover:text-white text-2xl font-semibold focus:outline-none" id="close-modal-btn">&times;</button>
+        <button class="text-gray-400 hover:text-white text-2xl font-semibold leading-none focus:outline-none" id="close-modal-btn">&times;</button>
       </div>
       
-      <form class="p-6 space-y-4">
-        <div>
-          <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Your Full Name *</label>
-          <input type="text" name="name" required class="w-full bg-black/30 border border-white/10 text-white rounded-lg px-4 py-2.5 text-sm focus:border-[#FFC107] focus:outline-none focus:ring-1 focus:ring-[#FFC107]" placeholder="e.g. Ramesh Kumar">
-        </div>
-        
-        <div>
-          <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Company / Project Name</label>
-          <input type="text" name="company_name" class="w-full bg-black/30 border border-white/10 text-white rounded-lg px-4 py-2.5 text-sm focus:border-[#FFC107] focus:outline-none focus:ring-1 focus:ring-[#FFC107]" placeholder="e.g. SKV Infra Pvt Ltd">
+      <div class="p-6 space-y-5">
+        <div class="bg-black/30 border border-white/5 p-4 rounded-lg">
+          <span class="block text-[10px] font-mono text-gray-500 uppercase tracking-wider mb-1">INQUIRY CONTEXT</span>
+          <p class="text-sm font-semibold text-white">${materialDisplay}${citySuffix}</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Mobile Number *</label>
-            <input type="tel" name="mobile_number" required class="w-full bg-black/30 border border-white/10 text-white rounded-lg px-4 py-2.5 text-sm focus:border-[#FFC107] focus:outline-none focus:ring-1 focus:ring-[#FFC107]" placeholder="e.g. 9876543210">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Project Location (City)</label>
-            <select name="city" class="w-full bg-black/30 border border-white/10 text-white rounded-lg px-4 py-2.5 text-sm focus:border-[#FFC107] focus:outline-none focus:ring-1 focus:ring-[#FFC107]">
-              <option value="Gurgaon" ${displayCity === 'Gurgaon' ? 'selected' : ''}>Gurgaon</option>
-              <option value="Noida" ${displayCity === 'Noida' ? 'selected' : ''}>Noida / Greater Noida</option>
-              <option value="Bangalore" ${displayCity === 'Bangalore' ? 'selected' : ''}>Bangalore</option>
-              <option value="Chennai" ${displayCity === 'Chennai' ? 'selected' : ''}>Chennai</option>
-              <option value="Hyderabad" ${displayCity === 'Hyderabad' ? 'selected' : ''}>Hyderabad</option>
-              <option value="Coimbatore" ${displayCity === 'Coimbatore' ? 'selected' : ''}>Coimbatore</option>
-              <option value="Other" ${displayCity === '' ? 'selected' : ''}>Other Cities in India</option>
-            </select>
-          </div>
-        </div>
-        
-        <div>
-          <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Primary Material Requirement *</label>
-          <select name="material_requirement" required class="w-full bg-black/30 border border-white/10 text-white rounded-lg px-4 py-2.5 text-sm focus:border-[#FFC107] focus:outline-none focus:ring-1 focus:ring-[#FFC107]">
-            <option value="">-- Select Material --</option>
-            <option value="Shuttering Plates & Materials" ${mappedKey === 'shuttering' ? 'selected' : ''}>Shuttering Materials & Centering Plates</option>
-            <option value="Heavy Scaffolding Systems" ${mappedKey === 'scaffolding' ? 'selected' : ''}>Heavy Duty Scaffolding (H-Frame / Multi-lock)</option>
-            <option value="Cuplock Scaffolding System" ${mappedKey === 'cuplock' ? 'selected' : ''}>Cuplock Scaffold Standards & Ledgers</option>
-            <option value="Adjustable Prop Jacks & Spans" ${mappedKey === 'jacks' ? 'selected' : ''}>Premium Prop Jacks, Spans & U-Jacks</option>
-            <option value="MS Challi & Steel walk boards" ${mappedKey === 'challi' ? 'selected' : ''}>Industrial MS Challi / Walkway Planks</option>
-            <option value="Full Infrastructure Project Logistics">Complete Slab Shuttering Package (High-Rise / Industrial)</option>
-          </select>
-        </div>
+        <p class="text-xs text-gray-400 leading-relaxed font-sans">
+          To receive instant rates, share details of your layout/sizes, or inspect inventory stocks - connect directly through our official hotlines below.
+        </p>
 
-        <div>
-          <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Approximate Project Size / Volume</label>
-          <input type="text" name="project_size" class="w-full bg-black/30 border border-white/10 text-white rounded-lg px-4 py-2.5 text-sm focus:border-[#FFC107] focus:outline-none focus:ring-1 focus:ring-[#FFC107]" placeholder="e.g., 10,000 sq.ft slab, 500 pcs prop jacks">
+        <div class="space-y-3 pt-1">
+          <!-- Call Option -->
+          <a href="tel:+917988862842" class="flex items-center justify-between bg-white/5 border border-white/10 hover:bg-white/10 hover:border-[#FFC107]/50 text-white rounded-lg p-3.5 transition duration-150 transform hover:-translate-y-0.5 shadow-lg group">
+            <div class="flex items-center space-x-3">
+              <div class="bg-amber-500/15 p-2 rounded-lg text-[#FFC107] group-hover:bg-[#FFC107] group-hover:text-black transition duration-200">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                </svg>
+              </div>
+              <div class="text-left">
+                <span class="block text-[9px] uppercase font-bold tracking-wider text-[#FFC107] font-mono leading-none">Immediate Connection</span>
+                <span class="text-sm font-extrabold text-white group-hover:text-[#FFC107] transition duration-200">+91 79888 62842</span>
+              </div>
+            </div>
+            <span class="text-xs font-mono font-bold bg-white/10 px-2 py-0.5 rounded uppercase text-gray-300">Call</span>
+          </a>
+
+          <!-- WhatsApp Option -->
+          <a href="https://wa.me/917988862842?text=Greetings%20Kisan%20Shuttering,%20I%20have%20an%20urgent%20requirement%20for%20${encodeURIComponent(materialDisplay)}${citySuffix ? '%20in%20' + activeCity : ''}." target="_blank" rel="noopener noreferrer" class="flex items-center justify-between bg-[#15803D] hover:bg-[#166534] text-white rounded-lg p-3.5 transition duration-150 transform hover:-translate-y-0.5 shadow-lg">
+            <div class="flex items-center space-x-3">
+              <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24">
+                <path d="M19.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.503 8.484-.008 6.66-5.345 11.997-11.958 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.197 1.45 4.817 1.451 5.403 0 9.798-4.4 9.802-9.81.002-2.623-1.01-5.086-2.853-6.93C16.57 1.94 14.116.927 12.012.927c-5.41 0-9.803 4.397-9.806 9.807-.001 1.928.496 3.551 1.442 5.11l-.953 3.478 3.552-.924zm11.365-7.318c-.3-.15-1.782-.88-2.057-.98-.275-.1-.475-.15-.675.15-.2.3-.775.98-.95 1.18-.175.2-.35.225-.65.075-3.518-1.564-4.572-2.937-5.144-3.926-.33-.56.059-.533.39-.197.165.167.3.3.45.45.15.15.2.25.3.45.1.2.05.375-.025.525-.075.15-.675 1.625-.925 2.225-.244.589-.491.508-.675.499-.174-.008-.375-.01-.575-.01-.2 0-.525.075-.8 1.05s-1.125 1.1-1.125 2.15c0 .35.075.688.225.98.6 1.213 1.83 2.15 3.325 2.8s2.5.55 3.65.375c.95-.15 1.78-.65 2.05-1.35.275-.7.275-1.3.2-1.425-.075-.125-.275-.2-.575-.35z"/>
+              </svg>
+              <div class="text-left">
+                <span class="block text-[9px] uppercase font-bold tracking-wider opacity-60 font-mono">Chat & Share Layouts</span>
+                <span class="text-sm font-extrabold text-white">WhatsApp Chat Desk</span>
+              </div>
+            </div>
+            <span class="text-xs font-mono font-bold bg-white/10 px-2 py-0.5 rounded uppercase">Chat</span>
+          </a>
+
+          <!-- Email Option -->
+          <a href="mailto:kisanshuttering@gmail.com?subject=Material%20Rental%20Query%20-%20${encodeURIComponent(materialDisplay)}" class="flex items-center justify-between bg-white/5 border border-white/10 hover:bg-white/10 hover:border-amber-500/50 text-white rounded-lg p-3.5 transition duration-150 transform hover:-translate-y-0.5 shadow-lg">
+            <div class="flex items-center space-x-3">
+              <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              <div class="text-left">
+                <span class="block text-[9px] uppercase font-bold tracking-wider text-gray-500 font-mono">Official Invoice Request</span>
+                <span class="text-xs font-bold text-gray-300 font-mono">kisanshuttering@gmail.com</span>
+              </div>
+            </div>
+            <span class="text-[10px] font-mono bg-white/10 px-2 py-0.5 rounded uppercase">Email</span>
+          </a>
         </div>
-        
-        <div>
-          <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Additional Project Details</label>
-          <textarea name="message" rows="3" class="w-full bg-black/30 border border-white/10 text-white rounded-lg px-4 py-2 text-sm focus:border-[#FFC107] focus:outline-none focus:ring-1 focus:ring-[#FFC107]" placeholder="Specify rental duration, start date, site address, and load bearing requirements."></textarea>
-        </div>
-        
-        <p class="text-[11px] text-gray-400">By clicking submit, you request Kisan Shuttering to verify material availability and offer premium corporate rental rates for the duration selected.</p>
-        
-        <button type="submit" class="w-full bg-[#FFC107] hover:bg-[#E0A800] text-black font-bold uppercase tracking-wider py-3 px-4 rounded-lg transition duration-200">
-          Get Instant Pricing Sheet
-        </button>
-      </form>
+      </div>
     </div>
   `;
   document.body.appendChild(modal);
@@ -369,9 +365,6 @@ function openQuoteModal(prefillMaterial = '') {
       document.body.style.overflow = '';
     }
   });
-
-  // Re-hook validations on the modal form
-  initForms();
 }
 
 // Fade in elements nicely on viewport exit
