@@ -240,6 +240,17 @@ app.get("/api/download-meta-pdf", (req, res) => {
   }
 });
 
+// Serve sitemap.xml directly from root main folder
+app.get("/sitemap.xml", (req, res) => {
+  const sitemapPath = path.join(process.cwd(), "sitemap.xml");
+  if (fs.existsSync(sitemapPath)) {
+    res.setHeader("Content-Type", "application/xml");
+    res.sendFile(sitemapPath);
+  } else {
+    res.status(404).end();
+  }
+});
+
 // Setup Vite or Static File Serving
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
