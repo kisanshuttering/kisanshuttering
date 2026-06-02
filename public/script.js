@@ -148,7 +148,7 @@ function initForms() {
       existingLeads.unshift(lead);
       localStorage.setItem('kisan_leads', JSON.stringify(existingLeads));
       
-      // Submit to server-side Google Forms proxy
+      // Submit to server database
       fetch('/api/submit-lead', {
         method: 'POST',
         headers: {
@@ -158,7 +158,7 @@ function initForms() {
       })
       .then(res => res.json())
       .then(data => {
-        console.log('Lead submitted to server & Google Forms sync status:', data);
+        console.log('Lead submitted to server:', data);
       })
       .catch(err => {
         console.error('Error syncing lead to server:', err);
